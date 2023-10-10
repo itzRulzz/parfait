@@ -1,9 +1,22 @@
 <html>
-    <title>
-        parfait: все рецепты в одном месте!
-    </title>
+    <head>
+        <style>
+            .centered {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%)
+            }
+        </style>
+
+        <title>
+            parfait: все рецепты в одном месте!
+        </title>
+    </head>
 
     <body>
+        {% load static %}
+        <img id="id_logo" src='{% static "parfait_base/imgs/logo.png" %}' width=130px height=175px class="centered" alt="parfait logo">
         <form method="POST">
             <input name="search_bar" id="id_new_search" placeholder="Введите название блюда...">
             {% csrf_token %}
