@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 def home_page(request):
     if request.method == 'POST':
-        return HttpResponse(request.POST['search_bar'])
+        users_query = request.POST.get('search_bar', '')
+        return render(request, 'home.html', {'ten': [users_query for x in range(10)]})
+    
     return render(request, 'home.html')

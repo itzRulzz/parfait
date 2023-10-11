@@ -47,19 +47,21 @@ class MainTest(unittest.TestCase):
         search_bar = self.browser.find_element('id', 'id_new_search')
         search_bar.send_keys('Парфе')
 
+        # Коля видит, что до нажатия Enter никаких ссылок нету.
+        table = self.browser.find_element('id', 'id_queries_table')
+        queries = table.find_elements('tag name', 'tr')
+        self.assertEqual(queries, [])
+
         # Коля нажимает Enter, ему выводится список 10-и рецептов этого блюда с разных сайтов.
         search_bar.send_keys(Keys.ENTER)
         time.sleep(1)
-        table = self.browser.find_element('id', 'id_queries_table')
-        queries = table.find_elements('tag name', 'tr')
+
         self.assertNotEqual(queries, [])
         self.assertEqual(len(queries), 10, f'Запросов выведено не 10. Вот запросы: {queries}')
-
-        # Коле интересно, сбросятся ли найденные ссылки при обновлении страницы.
-        # Коля замечает, что для него сгенерирован персональный URL.
-
-        # На всякий случай он обновляет сайт и
-        # с радостью замечает, что все ссылки остались на месте.
+        self.assertTrue(
+            all((row.text == 'http' or row.text == 'https') for row in queries)
+        )
+        # Проверить то, что каждый tr имеет атрибут link.
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
