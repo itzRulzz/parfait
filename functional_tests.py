@@ -41,14 +41,19 @@ class MainTest(unittest.TestCase):
         self.assertEqual(search_bar_text, 'Введите название блюда...')
 
     def test_can_retrieve_recipes(self):
+        self.browser.get('http://localhost:8000')
+        
         # Он вводит "Парфе" в текст-бокс (Коля любит французскую кухню).
         search_bar = self.browser.find_element('id', 'id_new_search')
         search_bar.send_keys('Парфе')
 
-        # Коля нажимает Enter, ему выводится список рецептов этого блюда с разных сайтов.
+        # Коля нажимает Enter, ему выводится список 10-и рецептов этого блюда с разных сайтов.
         search_bar.send_keys(Keys.ENTER)
         time.sleep(1)
-        
+        table = self.browser.find_element('id', 'id_queries_table')
+        queries = table.find_elements('tag name', 'tr')
+        self.assertNotEqual(queries, [])
+        self.assertEqual(len(queries), 10, f'Запросов выведено не 10. Вот запросы: {queries}')
 
         # Коле интересно, сбросятся ли найденные ссылки при обновлении страницы.
         # Коля замечает, что для него сгенерирован персональный URL.
