@@ -22,7 +22,7 @@
 
     <body style="background-color: #F6F6F6;">
         {% load static %}
-        <img id="id_logo" src='{% static "parfait_base/imgs/logo.png" %}' width=130px height=175px class="higher centered" alt="parfait logo">
+        <a href="http://localhost:8000"><img id="id_logo" src='{% static "parfait_base/imgs/logo.png" %}' width=130px height=175px class="higher centered" alt="parfait logo"></a>
         <form method="POST">
             <input name="search_bar" id="id_new_search" class="centered" placeholder="Введите название блюда...">
             {% csrf_token %}

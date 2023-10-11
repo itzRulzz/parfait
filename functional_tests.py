@@ -56,12 +56,19 @@ class MainTest(unittest.TestCase):
         search_bar.send_keys(Keys.ENTER)
         time.sleep(1)
 
+        # Переобъявляем новый контент таблицы после отправки запроса.
+        table = self.browser.find_element('id', 'id_queries_table')
+        queries = table.find_elements('tag name', 'tr')
+
         self.assertNotEqual(queries, [])
         self.assertEqual(len(queries), 10, f'Запросов выведено не 10. Вот запросы: {queries}')
+        
+        queries_text = [row.text for row in queries]
+        
         self.assertTrue(
-            all((row.text == 'http' or row.text == 'https') for row in queries)
+            all(('http' in row or 'https' in row) for row in queries_text)
         )
-        # Проверить то, что каждый tr имеет атрибут link.
+        # Проверить то, что каждый tr имеет атрибут a href.
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
