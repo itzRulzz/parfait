@@ -28,8 +28,8 @@
             {% csrf_token %}
         </form>
         <table id="id_queries_table" class="lower centered">
-            {% for query in ten %}
-            <tr><td>{{ query }}</td></tr>
+            {% for res in results %}
+            <tr><td>{{ res }}</td></tr>
             {% endfor %}
         </table>
     </body>

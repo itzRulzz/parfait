@@ -1,4 +1,5 @@
 from django.test import TestCase
+from recipe_parser import link_parser
 
 class HomePageTest(TestCase):
 
@@ -10,15 +11,13 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data={'search_bar': 'A new search query'})
         self.assertIn('A new search query', response.content.decode())
 
-    def test_can_display_queries(self):
-        # Представление сохраняет текст юзера из POST-запроса и
-        # возвращает страницу уже с его использованем.
-        response = self.client.post('/', data={'search_bar': 'A new search query'})
+    def test_display_queries_with_data_from_parser(self):
+        # Вызвать парсер вручную. Передать запрос на сайт с тем же текстом.
+        # Сравнить выведенные представлением результаты после POST-запоса.
+        parser_data = link_parser('Парфе')
+        response = self.client.post('/', data={'search_bar': 'Парфе'})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['ten'], ['A new search query'] * 10)
-    
-    def test_view_get_data_from_parser(self):
-        pass
+        self.assertEqual(response.context['results'], parser_data)
     
     '''
     def test_redirect_after_POST(self):
